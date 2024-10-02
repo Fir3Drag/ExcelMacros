@@ -13,15 +13,19 @@ Sub Receipt()
     lastRowNum = ActiveSheet.Cells(Cells.Rows.Count, "A").End(xlUp).Row
     
     For Each columnACell In Range("A2:A" & lastRowNum).Cells
+        'replaces any € with £
+         columnACell.Value = Replace(columnACell.Value, "€", "£")
         'Checks if the current cell starts with £ or -£
         
         If InStr(1, columnACell.Value, "£") = 1 Or InStr(1, columnACell.Value, "£") = 2 Then
             'set the values
-            columnBCell.Value = columnACell.Offset(-1, 0).Value
+            columnBCell.Value = columnACell.Offset(-2, 0).Value 'Due to the blank line each row you need to go up 2 lines
             columnCCell.Value = columnACell.Value
             
-            'strip the £
+            'strip the £, A, C
             columnCCell.Value = Replace(columnCCell.Value, "£", "")
+            columnCCell.Value = Replace(columnCCell.Value, "A", "")
+            columnCCell.Value = Replace(columnCCell.Value, "C", "")
             
             'incrementing the ranges
             Set columnBCell = Range("B" & newTableRowNumber)
